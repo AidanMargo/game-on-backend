@@ -5,3 +5,16 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+
+chad = User.create(name: "Chad", age: 26, email: "chad_the_lad@sportsball.com", city: "Toronto", )
+tommy = User.create(name: "Tommy")
+ashley = User.create(name: "Ashley")
+
+flag_footbal = Game.create(name: "chads flag football game", sport: "flag football", location: "toronto YMCA", 
+current_players: 1, max_players: 24, description: "chad is hosting a flag football match", host_id: chad.id)
+
+part1 = Participant.create(game_id: flag_footbal.id, user_id: chad.id)
+part2 = Participant.create(game_id: flag_footbal.id, user_id: ashley.id)
+part3 = Participant.create(game_id: flag_footbal.id, user_id: tommy.id)
+
