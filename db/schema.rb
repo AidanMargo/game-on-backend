@@ -14,6 +14,7 @@ ActiveRecord::Schema.define(version: 2021_12_06_195146) do
 
   create_table "games", force: :cascade do |t|
     t.string "name"
+    t.string "date"
     t.string "sport"
     t.string "location"
     t.integer "current_players"
