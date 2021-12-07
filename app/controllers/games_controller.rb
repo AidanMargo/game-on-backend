@@ -1,5 +1,7 @@
 class GamesController < ApplicationController
     rescue_from ActiveRecord::RecordNotFound, with: :game_not_found
+    before_action :check_user, only: [:create, :show, :index]
+    before_action :authenticate_user, only: [:delete]
 
     #/games#index
     def index 
@@ -17,8 +19,14 @@ class GamesController < ApplicationController
         if game.valid?
             render json: game, status: :created
         else 
-            render json: {errors: user.errors.full_messeges }, status: :unprocessable_entity
+            render json: {errors: user.errors.full_messages }, status: :unprocessable_entity
         end
+    end
+
+    def destroy 
+        game = Game.find(params[:id])
+        game.destroy
+        head :no_content
     end
 
 
@@ -30,7 +38,13 @@ class GamesController < ApplicationController
 
     def game_not_found
         render json: { error: "Game not found" }, status: :not_found
-      end
+    end
 
+    def check_user
+        return render json: { error: "Not authorized" }, status: :unauthorized unless session.include? :user_id
+    end
 
+    def authenticate_user
+        return render json: { error: "Not authorized" }, status: :unauthorized unless session[:user_id] == params[:user_id]
+    end
 end
