@@ -41,3 +41,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 #for the generation of data that looks slightly legit
 gem 'faker'
+
+#for the encription of passwords
+gem 'bcrypt'
