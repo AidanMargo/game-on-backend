@@ -8,7 +8,9 @@ Rails.application.routes.draw do
 
   get "/games/:id", to: "games#show"
 
-  post "/users", to: "users#create"
+  #post "/users", to: "users#create"
+
+  post "/participants", to: "participants#create"
 
 
 

@@ -1,4 +1,5 @@
 class GamesController < ApplicationController
+    rescue_from ActiveRecord::RecordNotFound, with: :game_not_found
 
     #/games#index
     def index 
@@ -6,15 +7,18 @@ class GamesController < ApplicationController
         render json: games
     end
 
-
     def show 
         game = Game.find(params[:id])
-        render json: game
+        render json: game, include: :participants
     end
 
     def create 
         game = Game.create(game_params)
-        render json: game, status: :created
+        if game.valid?
+            render json: game, status: :created
+        else 
+            render json: {errors: user.errors.full_messeges }, status: :unprocessable_entity
+        end
     end
 
 
@@ -23,6 +27,10 @@ class GamesController < ApplicationController
     def game_params
         params.permit(:name, :date, :sport, :location, :current_players, :max_players, :description, :host_id)
     end
+
+    def game_not_found
+        render json: { error: "Game not found" }, status: :not_found
+      end
 
 
 end
