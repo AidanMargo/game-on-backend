@@ -5,7 +5,7 @@ class ParticipantsController < ApplicationController
     def create
         participant = Participant.create(participant_params)
         if participant.valid?
-            rener json: participant
+            render json: participant
             game = Game.find(params[:game_id])
             game.update(current_players: game.participants.count)
         else

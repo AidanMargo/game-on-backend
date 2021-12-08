@@ -17,7 +17,7 @@ class GamesController < ApplicationController
     def create 
         game = Game.create(game_params)
         if game.valid?
-            make_participant
+            Participant.create(user_id: session[:user_id], game_id: game.id)
             render json: game, status: :created
         else 
             render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
@@ -33,9 +33,9 @@ class GamesController < ApplicationController
 
     private
 
-    def make_participant
-        Participant.create(user_id: session[:user_id], game_id: game.id)
-    end
+    # def make_participant
+    #     Participant.create(user_id: session[:user_id], game_id: game.id)
+    # end
 
     def game_params
         params.permit(:name, :date, :sport, :location, :current_players, :max_players, :description, :host_id)

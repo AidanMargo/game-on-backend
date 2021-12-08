@@ -13,9 +13,9 @@ Rails.application.routes.draw do
   #USERS
   post "/users", to: "users#create"
 
-  get "/users/games/:id", to: "users#games"
+  get "/user/games/:id", to: "users#games"
 
-  get "users/hosted_games/:id", to: "users#hosted_games"
+  get "/user/hosted_games/:id", to: "users#hosted_games"
 
   #Participants
   post "/participants", to: "participants#create"
@@ -27,7 +27,7 @@ Rails.application.routes.draw do
 
   post '/login', to: 'sessions#create'
 
-  delete "logout", to "sessions#destory"
+  delete "logout", to: "sessions#destory"
 
 
 
