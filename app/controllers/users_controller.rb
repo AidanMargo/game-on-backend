@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+    before_action :authenticate_user
+    skip_before_action :authenticate_user, only: [:create]
 
     def create 
         user = User.create(user_params)
@@ -11,7 +13,7 @@ class UsersController < ApplicationController
     end
 
     def show 
-        user = User.find_by(id: session[:user_id])
+        user = current_user
         if user
             render json: user
         else
@@ -19,12 +21,30 @@ class UsersController < ApplicationController
         end
     end
 
+    def games
+        user = current_user
+        games = user.games
+        render json: games, include: :participants
+    end
+
+    def hosted_games
+        user = current_user
+        hosted_games = User.hosted_games
+        render json: hosted_games, include: :participants
+    end
 
     private
+
+    def current_user
+        User.find(session[:user_id])
+    end
 
     def user_params
         params.permit(:name, :age, :email, :city, :profile_pic, :password_confirmation, :password)
     end
 
+    def authenticate_user
+        return render json: { error: "Not authorized" }, status: :unauthorized unless session[:user_id] == params[:user_id]
+    end
 
 end
