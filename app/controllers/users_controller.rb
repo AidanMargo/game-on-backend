@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
     before_action :authenticate_user
-    skip_before_action :authenticate_user, only: [:create]
+    skip_before_action :authenticate_user, only: [:create, :show]
 
     def create 
         user = User.create(user_params)
@@ -44,7 +44,7 @@ class UsersController < ApplicationController
     end
 
     def authenticate_user
-        return render json: { error: "Not authorized" }, status: :unauthorized unless session[:user_id] == params[:user_id]
+        return render json: { error: "Not authorized" }, status: :unauthorized unless session[:user_id] == params[:id]
     end
 
 end
