@@ -31,6 +31,10 @@ Rails.application.routes.draw do
 
   delete "/logout", to: "sessions#destroy"
 
+  # forum stuff, posts
+
+  get "/posts", to: "posts#index"
+
 
 
 

@@ -34,6 +34,5 @@ class ParticipantsController < ApplicationController
 
     def authenticate_user
         return render json: { error: "Not authorized" }, status: :unauthorized unless session[:user_id] == Participant.find(params[:id]).user_id
-
     end
 end

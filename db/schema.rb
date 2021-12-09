@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_06_195146) do
+ActiveRecord::Schema.define(version: 2021_12_08_221919) do
+
+  create_table "comments", force: :cascade do |t|
+    t.text "content"
+    t.integer "user_id", null: false
+    t.integer "post_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["post_id"], name: "index_comments_on_post_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
 
   create_table "games", force: :cascade do |t|
     t.string "name"
@@ -35,6 +45,14 @@ ActiveRecord::Schema.define(version: 2021_12_06_195146) do
     t.index ["user_id"], name: "index_participants_on_user_id"
   end
 
+  create_table "posts", force: :cascade do |t|
+    t.text "content"
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_posts_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.integer "age"
@@ -47,7 +65,10 @@ ActiveRecord::Schema.define(version: 2021_12_06_195146) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "comments", "posts"
+  add_foreign_key "comments", "users"
   add_foreign_key "games", "users", column: "host_id"
   add_foreign_key "participants", "games"
   add_foreign_key "participants", "users"
+  add_foreign_key "posts", "users"
 end
