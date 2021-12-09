@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
     before_action :authenticate_user
-    skip_before_action :authenticate_user, only: [:create, :show]
+    skip_before_action :authenticate_user, only: [:create, :show, :games]
 
     def create 
         user = User.create(user_params)
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
     end
 
     def user_params
-        params.permit(:name, :age, :email, :city, :profile_pic, :password_confirmation, :password)
+        params.permit(:id, :game, :name, :age, :email, :city, :profile_pic, :password_confirmation, :password)
     end
 
     def authenticate_user

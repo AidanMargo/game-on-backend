@@ -18,12 +18,23 @@ class GamesController < ApplicationController
         game = Game.create(game_params)
         if game.valid?
             Participant.create(user_id: session[:user_id], game_id: game.id)
+            game.update(current_players: game.participants.count)
             render json: game, status: :created
         else 
             render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
         end
     end
 
+    def update
+        game = Game.find(params[:id])
+        if game.valid?
+            game.update(game_params)
+            render json: game, status: :created
+        else
+            render json: {errors: game.errors.full_messages}, status: :unprocessable_entity
+        end
+    end
+    
     def destroy 
         game = Game.find(params[:id])
         game.destroy
