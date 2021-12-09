@@ -14,9 +14,8 @@ class ParticipantsController < ApplicationController
     end
 
     def destroy
-        session[:user_id] == params[:id]
         participant = Participant.find(params[:id])
-        game = game.find(params[:game_id])
+        game = Game.find(participant.game_id)
         participant.destroy
         game.update(current_players: game.participants.count)
         head :no_content
@@ -34,6 +33,7 @@ class ParticipantsController < ApplicationController
     end
 
     def authenticate_user
-        return render json: { error: "Not authorized" }, status: :unauthorized unless session[:user_id] == params[:user_id]
+        return render json: { error: "Not authorized" }, status: :unauthorized unless session[:user_id] == Participant.find(params[:id]).user_id
+
     end
 end
