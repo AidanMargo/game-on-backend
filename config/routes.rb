@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   #USERS
   post "/users", to: "users#create"
 
+  patch '/users/:id', to: 'users#update'
+
   get "/user/games/:id", to: "users#games"
 
   get "/user/hosted_games/:id", to: "users#hosted_games"
@@ -25,7 +27,7 @@ Rails.application.routes.draw do
   delete "participants/:id", to: "participants#destroy"
 
   #session info
-  get "/me", to: "users#show"
+  get "/me", to: "sessions#show"
 
   post '/login', to: 'sessions#create'
 
